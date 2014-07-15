@@ -7,6 +7,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <xc.h>
+#include "nRF24L0.h"
+
+
+
 
 /*
  * 
