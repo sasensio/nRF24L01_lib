@@ -1,6 +1,4 @@
 /*nRF24L01.h*/
-#define DBG 0
-
 
 
 // CSN , chip select for SPI
@@ -18,9 +16,7 @@
 #define disableRF24		nRF24CEpin=0
 
 
-
-
-
+#define DBG 0
 
 #define SETBIT(D,B) (D=D|(1<<B))
 #define RESBIT(D,B) (D=D&(~(1<<B)))
@@ -31,7 +27,6 @@
 
 //address
 #define AW_DEF 0x03  	// 2 bits, Address field width  3 (01) , 4 (10) or 5 (11) bytes
-#define ADDR_SPACE 5   //number of bytes for the addresses 
 
 // SETUP_RETR_REG  Automatic retransmission 
 #define ARD_DEF 0x1 	//4 bits 250uS + value*250us   	resetValue:0000
@@ -45,18 +40,15 @@
 #define RF_DR_DEF 0x1		//Speed transmission 0:1Mbps ; -> 1:2Mbps
 #define RF_PWR_DEF 0x3		//Output power   def: 0dbm		
 
-//CRC settings 
-#define EN_CRC_DEF	1;
-#define CRCO_DEF	1;		//CRC: 0: 1 byte,  1:2 bytes
 
-// Address setup
+// Pipes setup
 
-
-#define  RX_ADDR 0xAAAAAAAAA0
-#define  TX_ADDR 0xAAAAAAAAA1
+#define  RX_ADDR_P1 0xC2C2C2C2C2
 
 
 	//Static payload
+
+
 
 
 
@@ -72,7 +64,6 @@
 
 
 #define nRF24_EN_AA_REG		0x01
-	#define ENAA_P0 0x00
 #define nRF24_EN_RXADDR_REG	0x02
 
 #define nRF24_SETUP_AW_REG	0x03
@@ -103,7 +94,7 @@
 #define nRF24_RX_ADDR_P3_REG	0x0D
 #define nRF24_RX_ADDR_P4_REG	0x0E
 #define nRF24_RX_ADDR_P5_REG	0x0F
-#define nRF24_TX_ADDR_REG		0x10
+#define nRF24_TX_ADDR_REG	0x10
 
 #define nRF24_RX_PW_P0_REG	0x11
 #define nRF24_RX_PW_P1_REG	0x12
@@ -123,19 +114,14 @@
 //commands definition
 #define R_REGISTER 		0x00
 #define W_REGISTER 		0x20
-#define R_RX_PAYLOAD    0x61
-#define W_TX_PAYLOAD    0xA0
+#define R_RX_PAYLOAD            0x61
+#define W_TX_PAYLOAD            0xA0
 #define FLUSH_TX 		0xE1
 #define FLUSH_RX 		0xE2
-#defien REUSE_TX_PL		0xE3
-#define ACTIVATE		0x50		//follow by 0x73 activate:R_RX_PL_WID, W_ACK_PAYLOAD, W_TX_PAYLOAD_NOACK
-#define R_RX_PL_WID		0x60
-#define W_ACK_PAYLOAD	0x
-#define W_TX_PAYLOAD_NOACK 0xB0		//send data, no payload
+//...
 #define NOP_CMD			0xFF  //for read status
 
-
-void delay_ms(char time);		
+			
 char nRF24_send_CMD(char cmd, char* txdata, char txbytecount, char* rxdata, char rxbytecount);
 //always return the status register, the value to send or receive is exchange with pointers.
 void nRF24_init();
@@ -158,8 +144,8 @@ char nRF24_TX_mode();
 char nRF24_SBI_mode();		//Standby I mode
 char nRF24_SBII_mode();		//StandbyII mode. if data in TX FIFO it will be sent 
 
-char nRF24_setupEShockBurst(char);
-char nRF24_setup_EShockBurst(char addressEspaceSize, char ard, char arc, char);
-char nRF24_setup_RF(char rf_ch, char pll_lock, char rf_dr, char rf_pwr, char lna_hcurr);
-char nRF24_setup_rx_data_pipe(unsigned char pipeID, char * address, char sizePL, char autoACK);
+char setupEShockBurst(char);
+char setup_EShockBurst(char addressEspaceSize, char ard, char arc, char);
+char setup_RF(char rf_ch, char pll_lock, char rf_dr, char rf_pwr, char lna_hcurr);
+char setup_rx_data_pipe(unsigned char pipeID, char * address, char sizePL, char autoACK);
 //sizePL=0 means automatic payload size

@@ -1407,9 +1407,6 @@ extern void memcpyee(__eeprom unsigned char *to, const unsigned char *from, unsi
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 12 "../spi_lib/spi.h"
-void spi_init();
-
 # 125 "nRF24L0.h"
 char nRF24_send_CMD(char cmd, char* txdata, char txbytecount, char* rxdata, char rxbytecount);
 
@@ -1431,18 +1428,8 @@ char setup_EShockBurst(char addressEspaceSize, char ard, char arc, char);
 char setup_RF(char rf_ch, char pll_lock, char rf_dr, char rf_pwr, char lna_hcurr);
 char setup_rx_data_pipe(unsigned char pipeID, char * address, char sizePL, char autoACK);
 
-
-# 15 "main.c"
-#pragma config WDTE=OFF, FOSC=XT, CP = OFF, PWRTE = OFF, CCPMX = RB0, DEBUG = OFF, LVP = OFF, BOREN = OFF, MCLRE = ON, FCMEN = OFF & IESO = OFF
-
-
+# 19 "main.c"
 int main(int argc, char** argv) {
-
-while(1)
-{
-spi_init();
-nRF24_init();
-}
 
 return (0);
 }
