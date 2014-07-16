@@ -1,3 +1,9 @@
-_main: CODE, 2043 0 2
+_nRF24_PD_mode: CODE, 1925 0 37
+_nRF24_init: CODE, 1866 0 14
+_nRF24_send_CMD: CODE, 1962 0 83
+_main: CODE, 1847 0 7
+_nRF24_write_reg: CODE, 1880 0 18
 __initialization: CODE, 2045 0 0
-Total: 2
+_spi_init: CODE, 1854 0 12
+_nRF24_read_reg: CODE, 1898 0 27
+Total: 198

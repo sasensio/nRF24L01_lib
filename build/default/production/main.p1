@@ -1,5 +1,9 @@
 Version 3.2 HI-TECH Software Intermediate Code
 [p mainexit ]
+"12 ../spi_lib/spi.h
+[v _spi_init `(v ~T0 @X0 0 ef ]
+"127 nRF24L0.h
+[v _nRF24_init `(v ~T0 @X0 0 ef ]
 [; ;stdio.h: 8: typedef int ptrdiff_t;
 [; ;stdio.h: 9: typedef unsigned size_t;
 [; ;stdio.h: 10: typedef unsigned short wchar_t;
@@ -992,6 +996,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;eeprom_routines.h: 43: extern void eecpymem(volatile unsigned char *to, __eeprom unsigned char *from, unsigned char size);
 [; ;eeprom_routines.h: 44: extern void memcpyee(__eeprom unsigned char *to, const unsigned char *from, unsigned char size);
 [; ;pic.h: 154: extern __nonreentrant void _delay(unsigned long);
+[; ;spi.h: 12: void spi_init();
 [; ;nRF24L0.h: 125: char nRF24_send_CMD(char cmd, char* txdata, char txbytecount, char* rxdata, char rxbytecount);
 [; ;nRF24L0.h: 127: void nRF24_init();
 [; ;nRF24L0.h: 128: char nRF24_read_reg(char reg, char * data_reg, char bytes_length);
@@ -1007,19 +1012,50 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;nRF24L0.h: 148: char setup_EShockBurst(char addressEspaceSize, char ard, char arc, char);
 [; ;nRF24L0.h: 149: char setup_RF(char rf_ch, char pll_lock, char rf_dr, char rf_pwr, char lna_hcurr);
 [; ;nRF24L0.h: 150: char setup_rx_data_pipe(unsigned char pipeID, char * address, char sizePL, char autoACK);
-"19 main.c
+"15 main.c
+[p x WDTE=OFF ]
+[p x FOSC=XT ]
+[p x CP=OFF ]
+[p x PWRTE=OFF ]
+[p x CCPMX=RB0 ]
+[p x DEBUG=OFF ]
+[p x LVP=OFF ]
+[p x BOREN=OFF ]
+[p x MCLRE=ON ]
+[p x FCMEN=OFF ]
+[p x IESO=OFF ]
+"18
 [v _main `(i ~T0 @X0 1 ef2`i`**uc ]
 {
-[; ;main.c: 19: int main(int argc, char** argv) {
+[; ;main.c: 18: int main(int argc, char** argv) {
 [e :U _main ]
 [v _argc `i ~T0 @X0 1 r1 ]
 [v _argv `**uc ~T0 @X0 1 r2 ]
 [f ]
-[; ;main.c: 21: return (0);
+[; ;main.c: 20: while(1)
+"20
+[e :U 96 ]
+[; ;main.c: 21: {
 "21
+{
+[; ;main.c: 22: spi_init();
+"22
+[e ( _spi_init ..  ]
+[; ;main.c: 23: nRF24_init();
+"23
+[e ( _nRF24_init ..  ]
+"24
+}
+[e :U 95 ]
+"20
+[e $U 96  ]
+[e :U 97 ]
+[; ;main.c: 24: }
+[; ;main.c: 26: return (0);
+"26
 [e ) -> 0 `i ]
 [e $UE 94  ]
-[; ;main.c: 22: }
-"22
+[; ;main.c: 27: }
+"27
 [e :UE 94 ]
 }
