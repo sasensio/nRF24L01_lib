@@ -31,23 +31,23 @@
 
 //address
 #define AW_DEF 0x03  	// 2 bits, Address field width  3 (01) , 4 (10) or 5 (11) bytes
-#define ADDR_SPACE 5   //number of bytes for the addresses 
+#define ADDR_SPACE      5   //number of bytes for the addresses
 
 // SETUP_RETR_REG  Automatic retransmission 
-#define ARD_DEF 0x1 	//4 bits 250uS + value*250us   	resetValue:0000
-#define ARC_DEF 0x3		//4 bits value					resetValue:0011
+#define ARD_DEF         0x1 	//4 bits 250uS + value*250us   	resetValue:0000
+#define ARC_DEF         0x3		//4 bits value					resetValue:0011
 
 // RF_CH
-#define RF_CH_DEF 0x02	//7 bits 2400 + RF_CH  MHz		resetValue: 0000010 (2402 MHz)
+#define RF_CH_DEF       0x02	//7 bits 2400 + RF_CH  MHz		resetValue: 0000010 (2402 MHz)
 
 // RF_SETUP
-#define PLL_LOCK_DEF 0 		//Force PLL lock signal (only 4 test)
-#define RF_DR_DEF 0x1		//Speed transmission 0:1Mbps ; -> 1:2Mbps
-#define RF_PWR_DEF 0x3		//Output power   def: 0dbm		
+#define PLL_LOCK_DEF      0 		//Force PLL lock signal (only 4 test)
+#define RF_DR_DEF       0x1		//Speed transmission 0:1Mbps ; -> 1:2Mbps
+#define RF_PWR_DEF      0x3		//Output power   def: 0dbm
 
 //CRC settings 
-#define EN_CRC_DEF	1;
-#define CRCO_DEF	1;		//CRC: 0: 1 byte,  1:2 bytes
+#define EN_CRC_DEF	1
+#define CRCO_DEF	1		//CRC: 0: 1 byte,  1:2 bytes
 
 // Address setup
 
@@ -67,8 +67,13 @@
 //CONFIG
 #define nRF24_CONFIG_REG        0x00
 	//bits
-	#define PWR_UP      0x02
-	#define PRIM_RX     0x01
+        #define MASK_RX_DR  0x06
+        #define MASK_TX_DS  0x05
+        #define MASK_MAX_RT 0x04
+        #define EN_CRC      0x03
+        #define CRCO        0x02
+	#define PWR_UP      0x01
+	#define PRIM_RX     0x00
 
 
 #define nRF24_EN_AA_REG		0x01
@@ -127,7 +132,7 @@
 #define W_TX_PAYLOAD    0xA0
 #define FLUSH_TX 		0xE1
 #define FLUSH_RX 		0xE2
-#defien REUSE_TX_PL		0xE3
+#define REUSE_TX_PL		0xE3
 #define ACTIVATE		0x50		//follow by 0x73 activate:R_RX_PL_WID, W_ACK_PAYLOAD, W_TX_PAYLOAD_NOACK
 #define R_RX_PL_WID		0x60
 #define W_ACK_PAYLOAD	0x

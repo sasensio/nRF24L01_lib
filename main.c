@@ -10,6 +10,8 @@
 #include <xc.h>
 #include "spi.h"
 #include "nRF24L0.h"
+#include "16f88_lib.h"
+
 
 
 #pragma config WDTE=OFF,  FOSC=XT,  CP = OFF, PWRTE = OFF, CCPMX = RB0,  DEBUG = OFF,  LVP = OFF,  BOREN = OFF,  MCLRE = ON, FCMEN = OFF & IESO = OFF
@@ -31,6 +33,12 @@ int main(int argc, char** argv) {
     {
         spi_init();
         nRF24_init();
+        wait_ms(1);
+        nRF24_PD_mode();		//Power Down mode
+        wait_ms(2);
+        nRF24_RX_mode();		//Reception mode
+        wait_ms(3);
+        nRF24_TX_mode();
     }
 
     return (EXIT_SUCCESS);

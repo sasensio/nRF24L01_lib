@@ -46,3 +46,21 @@ l.obj
 *.sdb
 
 *.sym
+
+*.p1
+
+*.d
+
+*.pre
+
+*.p1
+
+*.d
+
+*.pre
+
+*.properties
+
+*.mk
+
+*.xml

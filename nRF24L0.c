@@ -149,7 +149,7 @@ char nRF24_TX_mode()
 	{
 		SETBIT(data,PWR_UP); 
 		RESBIT(data,PRIM_RX);
-		RESBIT(data,MASK_TX_DR); //enable interruption for TX
+		RESBIT(data,MASK_TX_DS); //enable interruption for TX
 		RESBIT(data,MASK_MAX_RT); //enable interruption for maximum retransmission
 		nRF24_write_reg(nRF24_CONFIG_REG, &data, 1 );	
 	}
@@ -199,7 +199,7 @@ char nRF24_setup_EShockBurst(char addressEspaceSize, char ard, char arc, char)
 	
 	//setup CRC
 	nRF24_read_reg(nRF24_CONFIG_REG,&data,1);
-	data|=  EN_CRC_DEF<<EN_CRC || CRCO_DEF<<CRCO;
+	data = data | (EN_CRC_DEF<<EN_CRC) | (CRCO_DEF<<CRCO);
 	nRF24_write_reg(nRF24_CONFIG_REG,&data,1);
 	
 	return ret;
@@ -263,21 +263,21 @@ char nRF24_setup_rx_data_pipe(unsigned char pipeID, char * address, char sizePL,
 }
 
 
-char nRF24_send_data(char * addr[5], char * data[], char length_data, char ACK)
+char nRF24_send_data(char * addr, char * data, char length_data, char ACK)
 //return: -1 data is pending to read or RX in progress
 {
 	char ret;
-	char data;
+	char reg;
 	
-	ret=nRF24_read_reg(nRF24_CONFIG_REG, data, 1);
-	if ((ret&0x0D) && (TESTBIT(ret,RX_DR)) )	//test if there is data in RX fifo and interruption asserted
+	ret=nRF24_read_reg(nRF24_CONFIG_REG, &reg, 1);
+	if ((ret&0x0D) && (TESBIT(ret,RX_DR)) )	//test if there is data in RX fifo and interruption asserted
 		return (-1); // data is pending to read or RX in progress
-	if (!(TESTBIT(data,PRIM_RX)) && !(TESTBIT(ret,TX_DS)))
+	if (!(TESBIT(reg,PRIM_RX)) && !(TESBIT(ret,TX_DS)))
 	{
 		return (-2); // TX pending to finish
 	}
 	
-	char nRF24_res_bit(nRF24_CONFIG_REG,char PRIM_RX); //reset PRIMRX
+	nRF24_res_bit(nRF24_CONFIG_REG,PRIM_RX); //reset PRIMRX
 	nRF24_SBII_mode;		//disable RX or TX
 	//configure address
 	ret=nRF24_write_reg(nRF24_TX_ADDR_REG, addr, ADDR_SPACE);		//write the address, number of bytes define in .h
@@ -296,6 +296,11 @@ char nRF24_send_data(char * addr[5], char * data[], char length_data, char ACK)
 		
 	}
 	nRF24_TX_mode();
+
+
+
+
+        return(0);
 }
 
 
