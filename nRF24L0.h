@@ -1,5 +1,6 @@
 /*nRF24L01.h*/
 #define DBG 0
+#define nRF24_CONNECTED 0
 
 
 

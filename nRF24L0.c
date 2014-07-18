@@ -16,7 +16,12 @@ char nRF24_send_CMD(char cmd, char* txdata, char txbytecount, char* rxdata, char
 	SSPBUF = cmd;
 	SPIselectnRF24;
 	SSPEN=1;
-	while (!BF){}
+	if(nRF24_CONNECTED)
+            while (!BF){}
+        else
+        {
+            NOP();NOP();NOP();NOP();NOP();NOP();NOP();NOP();
+        }
         BF=0;
 	nRF24_status=SSPBUF;  //during the command transmission the status register is received. 
 	while (txbytes || rxbytes)
@@ -28,7 +33,12 @@ char nRF24_send_CMD(char cmd, char* txdata, char txbytecount, char* rxdata, char
 		}		
 		else
 			SSPBUF=0;
-		while (!BF){}
+		if(nRF24_CONNECTED)
+                    while (!BF){}
+                else
+                {
+                    NOP();NOP();NOP();NOP();NOP();NOP();NOP();NOP();
+                }
 		if(rxbytes)
 		{
 			*(rxdata+rxi)=SSPBUF;

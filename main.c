@@ -63,23 +63,20 @@ void interrupt int_rutine(void)
 } 
 
 
-int main(int argc, char** argv) {
+int main(void) {
+
+    TRISB3=0;
+    TRISB2=0;
 
     while(1)
     {
-        spi_init();
-        nRF24_init();
-        RB3=1;
         wait_ms(1);
-        RB3=0;
+        nRF24_init();
+        wait_ms(1);
         nRF24_PD_mode();                //Power Down mode
-        RB3=1;
-        wait_ms(2);
-        RB3=0;
+        wait_ms(1);
         nRF24_RX_mode();		//Reception mode
-        RB3=1;
-        wait_ms(3);
-        RB3=0;
+        wait_ms(1);
         nRF24_TX_mode();
 		
 		
