@@ -19,6 +19,8 @@
 
 
 
+#define ENABLE_MCU_INTERRUPT INTEDG=0;INT0IF=0;INT0IE=1;GIE=0 //enable interruption in MCU
+
 
 
 
@@ -67,41 +69,47 @@
 //CONFIG
 #define nRF24_CONFIG_REG        0x00
 	//bits
-        #define MASK_RX_DR  0x06
-        #define MASK_TX_DS  0x05
-        #define MASK_MAX_RT 0x04
-        #define EN_CRC      0x03
-        #define CRCO        0x02
+    #define MASK_RX_DR  0x06
+    #define MASK_TX_DS  0x05
+    #define MASK_MAX_RT 0x04
+    #define EN_CRC      0x03
+    #define CRCO        0x02
 	#define PWR_UP      0x01
 	#define PRIM_RX     0x00
 
+	
+	//REGISTERS
 
 #define nRF24_EN_AA_REG		0x01
 	#define ENAA_P0 0x00
+	
 #define nRF24_EN_RXADDR_REG	0x02
 
 #define nRF24_SETUP_AW_REG	0x03
 	#define AW          0x00	//2 bits
+	
 #define nRF24_SETUP_RETR_REG	0x04
 	#define ARD         0x4		//bits 7:4
 	#define ARC         0x0		//bits 3:0
+	
 #define nRF24_RF_CH_REG		0x05
 	#define RF_CH       0x0		//bits 6:0
+	
 #define nRF24_RF_SETUP_REG	0x06
 	#define PLL_LOCK    0x4		//bit 4
 	#define RF_DR       0x3		//bit 3
 	#define RF_PWR      0x1		//bits 2:1
-	#define LNA_HCURR	0x0	//bit 0
+	#define LNA_HCURR	0x0		//bit 0
+	
 #define nRF24_STATUS_REG	0x07
 	#define RX_DR       0x6		//bit 6  Data RX interrupt: data available in RX FIFO
 	#define TX_DS       0x5		//bit 5	 Data sent TX FIFO interrupt. If AUTO_ACK: ack received
 	#define MAX_RT      0x4		//bit 4	 Maximum number of TX retransmits interrupt
 	#define RX_P_NO     0x1		//bits 3:1 Data pipe number for the payload available for reading from RX_FIFO
 	#define TX_FULL     0x0		//bit 0  TX FIFO full flag.
-	
+
 #define nRF24_OBSERVE_TX_REG	0x08
 #define nRF24_CD_REG		0x09
-
 #define nRF24_RX_ADDR_P0_REG	0x0A
 #define nRF24_RX_ADDR_P1_REG	0x0B
 #define nRF24_RX_ADDR_P2_REG	0x0C
@@ -135,7 +143,7 @@
 #define REUSE_TX_PL		0xE3
 #define ACTIVATE		0x50		//follow by 0x73 activate:R_RX_PL_WID, W_ACK_PAYLOAD, W_TX_PAYLOAD_NOACK
 #define R_RX_PL_WID		0x60
-#define W_ACK_PAYLOAD	0x
+#define W_ACK_PAYLOAD	0xA8		// | pipeline nº
 #define W_TX_PAYLOAD_NOACK 0xB0		//send data, no payload
 #define NOP_CMD			0xFF  //for read status
 

@@ -15,7 +15,7 @@ char nRF24_send_CMD(char cmd, char* txdata, char txbytecount, char* rxdata, char
 	
 	SSPBUF = cmd;
 	SPIselectnRF24;
-	SSPEN=1;;
+	SSPEN=1;
 	while (!BF){}
         BF=0;
 	nRF24_status=SSPBUF;  //during the command transmission the status register is received. 
@@ -43,15 +43,18 @@ char nRF24_send_CMD(char cmd, char* txdata, char txbytecount, char* rxdata, char
 
 void nRF24_init()
 {
+	char data;
 	nRF24CSNdir=0; //output
-	nRF24CEdir=0;	
+	nRF24CEdir=0;
 	
 	SPIdeselectnRF24;
 	disableRF24;
 	spi_init();
+	data=0x73;
+	nRF24_send_CMD(ACTIVATE, &data, 1, 0, 0);	// activate extended commands
 	nRF24_PD_mode();
+	ENABLE_MCU_INTERRUPT;
 }
-
 
 char nRF24_read_reg(char reg, char * data_reg, char bytes_length)
 {
@@ -137,7 +140,6 @@ char nRF24_RX_mode()		//Reception mode
 	enableRF24;
 	return (data);
 }
-
 
 char nRF24_TX_mode()
 {
@@ -276,7 +278,6 @@ char nRF24_send_data(char * addr, char * data, char length_data, char ACK)
 	{
 		return (-2); // TX pending to finish
 	}
-	
 	nRF24_res_bit(nRF24_CONFIG_REG,PRIM_RX); //reset PRIMRX
 	nRF24_SBII_mode;		//disable RX or TX
 	//configure address
@@ -300,7 +301,8 @@ char nRF24_send_data(char * addr, char * data, char length_data, char ACK)
 
 
 
-        return(0);
+    return(0);
 }
+
 
 
